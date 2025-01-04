@@ -1,6 +1,7 @@
+// ignore: file_names
 import 'package:appointmentapp/screens/doctor_details.dart';
 import 'package:appointmentapp/screens/homescreen.dart';
-import 'package:appointmentapp/screens/messages_screen.dart';
+// import 'package:appointmentapp/screens/messages_screen.dart';
 import 'package:appointmentapp/screens/schedule.dart';
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';

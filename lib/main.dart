@@ -1,5 +1,5 @@
 import 'package:appointmentapp/pages/HomePage.dart';
-import 'package:appointmentapp/screens/doctor_details.dart';
+// import 'package:appointmentapp/screens/doctor_details.dart';
 import 'package:flutter/material.dart';
 
 void main() {
