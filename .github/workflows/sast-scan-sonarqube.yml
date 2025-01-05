@@ -180,7 +180,8 @@ jobs:
 
       # Build the Flutter project with verbose output
       - name: Build Flutter Project
-        run: flutter build apk --debug --verbose
+        #run: flutter build apk --debug --verbose
+        run: flutter build apk
 
       # Run SonarQube analysis
       - name: Run SonarQube Scan
