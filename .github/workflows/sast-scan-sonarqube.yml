@@ -174,7 +174,8 @@ jobs:
       # Increase Gradle memory
       - name: Increase Gradle Memory
         run: |
-          echo "org.gradle.jvmargs=-Xmx4096m -XX:MaxPermSize=512m" >> android/gradle.properties
+          echo "org.gradle.jvmargs=-Xmx4096m " >> android/gradle.properties
+        # echo "org.gradle.jvmargs=-Xmx4096m -XX:MaxPermSize=512m" >> android/gradle.properties
 
       # Install dependencies
       - name: Install Dependencies
