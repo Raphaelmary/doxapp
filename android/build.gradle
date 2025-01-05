@@ -16,3 +16,10 @@ subprojects {
 tasks.register("clean", Delete) {
     delete rootProject.buildDir
 }
+
+//added the dependencies version upgrade to 8.1.0
+
+dependencies {
+    classpath 'com.android.tools.build:gradle:8.1.0'
+}
+
