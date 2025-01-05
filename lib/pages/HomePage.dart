@@ -59,7 +59,7 @@ class _HomepageState extends State<Homepage> {
           ),
           BottomNavigationBarItem(
             icon: Icon(Iconsax.user),
-            label: 'Profile',
+            label: 'User',
           ),
         ],
         currentIndex: selectedMenu,
