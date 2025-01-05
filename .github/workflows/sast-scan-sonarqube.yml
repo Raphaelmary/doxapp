@@ -190,6 +190,8 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
+#updated android SDK to version 17 by opening android studio through C:\Program Files\Android\Android Studio\bin and launching studio64 for 64bit. Then I navigated to settings/SDK Manager/Android SDK/SDK Tools and update /Android SDK Command-line Tools and Android SDK Build Tools 36 rc2 to latest
+
 #PART VI - FIX FOR KOTLIN ERROR
 # name: Flutter Build and SonarQube Scan
 
