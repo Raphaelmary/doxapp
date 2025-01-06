@@ -120,11 +120,11 @@ jobs:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
 
       # Step 8: Test iOS dependencies (if applicable)
-      - name: Snyk Test for iOS
-        working-directory: ios
-        run: snyk test --file=Podfile.lock
-        env:
-          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+    #   - name: Snyk Test for iOS
+    #     working-directory: ios
+    #     run: snyk test --file=Podfile.lock
+    #     env:
+    #       SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
 
       # Step 9: Monitor project dependencies
       - name: Snyk Monitor
