@@ -113,10 +113,29 @@ jobs:
       - name: Install Flutter Dependencies
         run: flutter pub get
 
-      - name: Snyk Test
-        run: snyk test --file=pubspec.lock
+      # Step 7: Test Android dependencies
+      - name: Snyk Test for Android
+        run: snyk test --file=android/build.gradle
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+
+      # Step 8: Test iOS dependencies (if applicable)
+      - name: Snyk Test for iOS
+        working-directory: ios
+        run: snyk test --file=Podfile.lock
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+
+      # Step 9: Monitor project dependencies
+      - name: Snyk Monitor
+        run: snyk monitor
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+
+    #   - name: Snyk Test
+    #     run: snyk test --file=pubspec.lock
+    #     env:
+    #       SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
 
     #   # Step 6: Generate dependency graph (JSON format)
     #   - name: Export Dependencies as JSON
@@ -128,5 +147,5 @@ jobs:
     #     env:
     #       SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
 #       # Monitor the project (optional)
-      - name: Monitor Project
-        run: snyk monitor --file=snyk-deps.json
+    #   - name: Monitor Project
+    #     run: snyk monitor --file=snyk-deps.json
