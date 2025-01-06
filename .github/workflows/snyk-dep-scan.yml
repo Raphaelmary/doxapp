@@ -119,9 +119,9 @@ jobs:
 
       # Step 7: Snyk Test for JSON Dependencies
       - name: Test JSON Dependency Graph with Snyk
-        run: snyk test --all-projects --file=snyk-deps.json
+        run: snyk test --file=snyk-deps.json
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
 #       # Monitor the project (optional)
       - name: Monitor Project
-        run: snyk monitor --all-projects --file=snyk-deps.json
+        run: snyk monitor --file=snyk-deps.json
