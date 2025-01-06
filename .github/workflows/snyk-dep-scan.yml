@@ -1,0 +1,61 @@
+name: Snyk Scan
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    types: [opened, synchronize, reopened]
+  workflow_dispatch:  
+
+jobs:
+  snyk:
+    name: Snyk Security Scan
+    runs-on: ubuntu-latest
+
+    steps:
+      # Check out the code
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # Set up Java for native dependency scanning
+      - name: Set up Java
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'zulu'
+          java-version: '17'
+
+      # Set up Flutter environment
+      - name: Install Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.27.1'
+
+      # Install Snyk
+      - name: Install Snyk CLI
+        run: |
+          curl -sL https://snyk.io/install | bash
+          snyk --version
+
+      # Authenticate Snyk CLI
+      - name: Authenticate Snyk
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        run: snyk auth $SNYK_TOKEN
+
+      # Analyze Dart/Flutter dependencies
+      - name: Test Dart dependencies
+        run: snyk test --file=pubspec.lock
+
+      # Analyze Android dependencies
+      - name: Test Android dependencies
+        run: snyk test --file=android/build.gradle
+
+      # Analyze iOS dependencies (if applicable)
+      - name: Test iOS dependencies
+        working-directory: ios
+        run: snyk test --file=Podfile.lock
+
+      # Monitor the project (optional)
+      - name: Monitor Project
+        run: snyk monitor --file=pubspec.lock
