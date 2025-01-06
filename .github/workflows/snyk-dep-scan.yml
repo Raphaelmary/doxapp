@@ -1,3 +1,67 @@
+# name: Snyk Scan
+
+# on:
+#   push:
+#     branches:
+#       - main
+#   pull_request:
+#     types: [opened, synchronize, reopened]
+#   workflow_dispatch:  
+
+# jobs:
+#   snyk:
+#     name: Snyk Security Scan
+#     runs-on: ubuntu-latest
+
+#     steps:
+#       # Check out the code
+#       - name: Checkout code
+#         uses: actions/checkout@v4
+
+#       # Set up Java for native dependency scanning
+#       - name: Set up Java
+#         uses: actions/setup-java@v3
+#         with:
+#           distribution: 'zulu'
+#           java-version: '17'
+
+#       # Set up Flutter environment
+#       - name: Install Flutter
+#         uses: subosito/flutter-action@v2
+#         with:
+#           flutter-version: '3.27.1'
+
+#       # Install Snyk
+#       - name: Install Snyk CLI
+#         run: |
+#           curl -Lo snyk https://static.snyk.io/cli/latest/snyk-linux
+#           chmod +x snyk
+#           sudo mv snyk /usr/local/bin/snyk
+#           snyk --version
+
+#       # Authenticate Snyk CLI
+#       - name: Authenticate Snyk
+#         env:
+#           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+#         run: snyk auth $SNYK_TOKEN
+
+#       # Analyze Dart/Flutter dependencies
+#       - name: Test Dart dependencies
+#         run: snyk test --file=pubspec.lock
+
+#       # Analyze Android dependencies
+#       - name: Test Android dependencies
+#         run: snyk test --file=android/build.gradle
+
+#       # Analyze iOS dependencies (if applicable)
+#       - name: Test iOS dependencies
+#         working-directory: ios
+#         run: snyk test --file=Podfile.lock
+
+#       # Monitor the project (optional)
+#       - name: Monitor Project
+#         run: snyk monitor --file=pubspec.lock
+
 name: Snyk Scan
 
 on:
@@ -39,25 +103,25 @@ jobs:
           sudo mv snyk /usr/local/bin/snyk
           snyk --version
 
-      # Authenticate Snyk CLI
+      # Step 4: Authenticate with Snyk
       - name: Authenticate Snyk
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         run: snyk auth $SNYK_TOKEN
 
-      # Analyze Dart/Flutter dependencies
-      - name: Test Dart dependencies
-        run: snyk test --file=pubspec.lock
+      # Step 5: Install Flutter dependencies
+      - name: Install Flutter Dependencies
+        run: flutter pub get
 
-      # Analyze Android dependencies
-      - name: Test Android dependencies
-        run: snyk test --file=android/build.gradle
+      # Step 6: Generate dependency graph (JSON format)
+      - name: Export Dependencies as JSON
+        run: flutter pub deps --json > snyk-deps.json
 
-      # Analyze iOS dependencies (if applicable)
-      - name: Test iOS dependencies
-        working-directory: ios
-        run: snyk test --file=Podfile.lock
-
-      # Monitor the project (optional)
+      # Step 7: Snyk Test for JSON Dependencies
+      - name: Test JSON Dependency Graph with Snyk
+        run: snyk test --all-projects --file=snyk-deps.json
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+#       # Monitor the project (optional)
       - name: Monitor Project
-        run: snyk monitor --file=pubspec.lock
+        run: snyk monitor --all-projects --file=snyk-deps.json
