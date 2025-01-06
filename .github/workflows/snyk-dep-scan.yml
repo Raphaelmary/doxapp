@@ -34,7 +34,9 @@ jobs:
       # Install Snyk
       - name: Install Snyk CLI
         run: |
-          curl -sL https://snyk.io/install | bash
+          curl -Lo snyk https://static.snyk.io/cli/latest/snyk-linux
+          chmod +x snyk
+          sudo mv snyk /usr/local/bin/snyk
           snyk --version
 
       # Authenticate Snyk CLI
