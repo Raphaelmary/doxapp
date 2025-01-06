@@ -128,7 +128,7 @@ jobs:
 
       # Step 9: Monitor project dependencies
       - name: Snyk Monitor
-        run: snyk monitor
+        run: snyk monitor --file=android/build.gradle
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
 
