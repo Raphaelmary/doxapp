@@ -113,15 +113,20 @@ jobs:
       - name: Install Flutter Dependencies
         run: flutter pub get
 
-      # Step 6: Generate dependency graph (JSON format)
-      - name: Export Dependencies as JSON
-        run: flutter pub deps --json > snyk-deps.json
-
-      # Step 7: Snyk Test for JSON Dependencies
-      - name: Test JSON Dependency Graph with Snyk
-        run: snyk test --file=snyk-deps.json
+      - name: Snyk Test
+        run: snyk test --file=pubspec.lock
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+
+    #   # Step 6: Generate dependency graph (JSON format)
+    #   - name: Export Dependencies as JSON
+    #     run: flutter pub deps --json > snyk-deps.json
+
+    #   # Step 7: Snyk Test for JSON Dependencies
+    #   - name: Test JSON Dependency Graph with Snyk
+    #     run: snyk test --file=snyk-deps.json
+    #     env:
+    #       SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
 #       # Monitor the project (optional)
       - name: Monitor Project
         run: snyk monitor --file=snyk-deps.json
